@@ -116,9 +116,15 @@ const ApartmentSlider = ({ images, name, onOpen }) => {
       className="relative h-72 md:h-96 overflow-hidden rounded-t-3xl bg-stone-200 group cursor-zoom-in"
     >
       <img
-        src={safeImages[current]}
-        alt={`${name} Bild ${current + 1}`}
-        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+  src={safeImages[current]}
+  alt={`${name} Bild ${current + 1}`}
+  loading="eager"
+  decoding="async"
+  onError={(e) => {
+    console.log("Bildfehler:", e.target.src);
+    e.target.style.background = "red";
+  }}
+  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
