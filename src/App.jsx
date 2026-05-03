@@ -690,7 +690,7 @@ function App() {
               <div className="text-3xl mb-4">🍳</div>
               <h3 className="text-lg font-semibold mb-3">Küche</h3>
               <ul className="space-y-2 text-[#6b6258] text-sm">
-                <li>Induktionskochfeld</li>
+                <li>Kochfeld</li>
                 <li>Backofen & Kühlschrank</li>
                 <li>Kaffeemaschine & Wasserkocher</li>
                 <li>Geschirr & Basisgewürze</li>
