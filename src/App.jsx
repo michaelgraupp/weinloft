@@ -54,16 +54,16 @@ const APARTMENTS = [
       "Maßgefertigte Tischlermöbel aus Vollholz",
     ],
     images: [
-      "/images/waldblick/IMG_1006.jpeg",
-      "/images/waldblick/IMG_4685.jpeg",
-      "/images/waldblick/IMG_1639.jpeg",
-      "/images/waldblick/IMG_1446.jpeg",
-      "/images/waldblick/IMG_4667.jpeg",
-      "/images/waldblick/IMG_4665.jpeg",
-      "/images/waldblick/IMG_6124.jpeg",
-      "/images/waldblick/IMG_4691.jpeg",
-      "/images/waldblick/IMG_4692.jpeg",
-      "/images/waldblick/IMG_4673.jpeg",
+      "/images/waldblick/waldblick_1.jpeg",
+      "/images/waldblick/waldblick_2.jpeg",
+      "/images/waldblick/waldblick_3.jpeg",
+      "/images/waldblick/waldblick_4.jpeg",
+      "/images/waldblick/waldblick_5.jpeg",
+      "/images/waldblick/waldblick_6.jpeg",
+      "/images/waldblick/waldblick_7.jpeg",
+      "/images/waldblick/waldblick_8.jpeg",
+      "/images/waldblick/waldblick_9.jpeg",
+      "/images/waldblick/waldblick_10.jpeg",
     ],
   },
 ];
@@ -120,10 +120,6 @@ const ApartmentSlider = ({ images, name, onOpen }) => {
   alt={`${name} Bild ${current + 1}`}
   loading="eager"
   decoding="async"
-  onError={(e) => {
-    console.log("Bildfehler:", e.target.src);
-    e.target.style.background = "red";
-  }}
   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
 
