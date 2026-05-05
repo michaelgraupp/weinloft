@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 
 const HERO_IMAGES = [
   {
-    src: "/images/hero/hero_1.jpeg",
+    src: "/images/hero/hero_12.jpeg",
     alt: "Naschgarten mit Blick auf Gamlitz",
   },
   {
-    src: "/images/hero/hero_2.jpeg",
+    src: "/images/hero/hero_22.jpeg",
     alt: "Modernes Apartment im Weinloft Gamlitz",
   },
   {
-    src: "/images/hero/hero_3.jpeg",
+    src: "/images/hero/hero_32.jpeg",
     alt: "Balkon mit Blick ins Grüne",
   },
 ];
@@ -30,14 +30,14 @@ const APARTMENTS = [
       "Maßgefertigte Tischlermöbel aus Vollholz",
     ],
     images: [
-      "/images/gamlitzblick/IMG_4693.jpeg",
-      "/images/gamlitzblick/IMG_4685.jpeg",
-      "/images/gamlitzblick/IMG_4662.jpeg",
-      "/images/gamlitzblick/IMG_1705.jpeg",
-      "/images/gamlitzblick/IMG_1694.jpeg",
-      "/images/gamlitzblick/IMG_1779.jpeg",
-      "/images/gamlitzblick/IMG_1796.jpeg",
-      "/images/gamlitzblick/IMG_1768.jpeg",
+      "/images/gamlitzblick/gamlitzblick_1.jpeg",
+      "/images/gamlitzblick/gamlitzblick_2.jpeg",
+      "/images/gamlitzblick/gamlitzblick_3.jpeg",
+      "/images/gamlitzblick/gamlitzblick_4.jpeg",
+      "/images/gamlitzblick/gamlitzblick_5.jpeg",
+      "/images/gamlitzblick/gamlitzblick_6.jpeg",
+      "/images/gamlitzblick/gamlitzblick_7.jpeg",
+      "/images/gamlitzblick/gamlitzblick_8.jpeg",
     ],
   },
   {
@@ -638,7 +638,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-3xl overflow-hidden shadow-sm bg-[#fbfaf6]">
             <img
-              src="/images/naschgarten.jpeg"
+              src="/images/naschgarten_1.jpeg"
               alt="Naschgarten Weinloft Gamlitz"
               className="w-full h-[450px] object-cover rounded-3xl shadow-md hover:scale-[1.02] transition duration-500"
             />
