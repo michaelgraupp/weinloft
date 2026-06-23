@@ -1,1 +1,38 @@
 @import "tailwindcss";
+/* Weinloft Calendar Styling */
+
+.rdp-root {
+  --rdp-accent-color: #3f4b3f;
+  --rdp-accent-background-color: #dfe6dc;
+  --rdp-today-color: #3f4b3f;
+}
+
+.rdp-chevron {
+  fill: #3f4b3f !important;
+}
+
+.rdp-button_next svg,
+.rdp-button_previous svg {
+  fill: #3f4b3f !important;
+}
+
+.weinloft-range-start .rdp-day_button,
+.weinloft-range-end .rdp-day_button,
+.weinloft-selected .rdp-day_button {
+  background-color: #3f4b3f !important;
+  color: white !important;
+  border-radius: 999px !important;
+}
+
+.weinloft-range-middle .rdp-day_button {
+  background-color: #dfe6dc !important;
+  color: #2b2b2b !important;
+}
+
+.weinloft-disabled .rdp-day_button {
+  color: #b8afa2 !important;
+}
+.rdp-today {
+  color: inherit !important;
+  font-weight: inherit !important;
+}

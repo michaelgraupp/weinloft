@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AvailabilityCalendar from "./components/AvailabilityCalendar";
 
 const HERO_IMAGES = [
   {
@@ -749,7 +750,9 @@ function App() {
           </div>
         </div>
       </section>
-
+<AvailabilityCalendar
+  onSelectStay={(stay) => console.log(stay)}
+/>
       <section id="buchen" className="py-20 bg-[#3f4b3f] text-white scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="mb-10 text-center">
