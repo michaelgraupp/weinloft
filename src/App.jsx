@@ -401,6 +401,11 @@ function App() {
   const [heroImage, setHeroImage] = useState(0);
   const [legalPage, setLegalPage] = useState(null);
   const [lightbox, setLightbox] = useState(null);
+  const [bookingRequest, setBookingRequest] = useState({
+  apartment: "",
+  arrival: "",
+  departure: "",
+});
 
   const openLightbox = (images, current, name) => {
     setLightbox({ images, current, name });
@@ -751,7 +756,7 @@ function App() {
         </div>
       </section>
 <AvailabilityCalendar
-  onSelectStay={(stay) => console.log(stay)}
+  onSelectStay={(stay) => setBookingRequest(stay)}
 />
       <section id="buchen" className="py-20 bg-[#3f4b3f] text-white scroll-mt-20">
         <div className="max-w-6xl mx-auto px-4">
@@ -791,7 +796,14 @@ function App() {
                 </div>
                 <div>
                   <label className="block mb-1 font-medium">Gewünschtes Apartment</label>
-                  <select name="apartment" className="w-full border border-[#cbbfae] rounded-xl px-3 py-3 bg-[#fbfaf6]">
+                  <select
+  name="apartment"
+  value={bookingRequest.apartment}
+  onChange={(e) =>
+    setBookingRequest({ ...bookingRequest, apartment: e.target.value })
+  }
+  className="w-full border border-[#cbbfae] rounded-xl px-3 py-3 bg-[#fbfaf6]"
+>
                     <option value="">egal / noch unentschieden</option>
                     <option value="Gamlitzblick">Gamlitzblick · 2 Personen</option>
                     <option value="Waldblick">Waldblick · bis 4 Personen</option>
@@ -802,11 +814,34 @@ function App() {
               <div className="grid md:grid-cols-3 gap-4">
                 <div>
                   <label className="block mb-1 font-medium">Anreise*</label>
-                  <input type="date" required className="w-full border border-[#cbbfae] rounded-xl px-3 py-3" name="arrival" />
+                  <input type="date"
+                  name="arrival"
+                  required
+                  value={bookingRequest.arrival}
+                  onChange={(e) =>
+                    setBookingRequest({
+                      ...bookingRequest,
+                      arrival: e.target.value,
+                    })
+                  }
+                  className="w-full border border-[#cbbfae] rounded-xl px-3 py-3"
+                  />
                 </div>
                 <div>
                   <label className="block mb-1 font-medium">Abreise*</label>
-                  <input type="date" required className="w-full border border-[#cbbfae] rounded-xl px-3 py-3" name="departure" />
+                  <input
+                  type="date"
+                  name="departure"
+                  required
+                  value={bookingRequest.departure}
+                  onChange={(e) =>
+                    setBookingRequest({
+                      ...bookingRequest,
+                      departure: e.target.value,
+                    })
+                  }
+                  className="w-full border border-[#cbbfae] rounded-xl px-3 py-3"
+                  />
                 </div>
                 <div>
                   <label className="block mb-1 font-medium">Personen*</label>

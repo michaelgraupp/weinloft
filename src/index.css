@@ -36,3 +36,9 @@
   color: inherit !important;
   font-weight: inherit !important;
 }
+.weinloft-booked .rdp-day_button {
+  background-color: #d8d1c5 !important;
+  color: #8b8175 !important;
+  text-decoration: line-through;
+  cursor: not-allowed !important;
+}

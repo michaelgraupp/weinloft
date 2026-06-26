@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
@@ -6,9 +6,73 @@ import { de } from "date-fns/locale";
 
 const apartments = ["Gamlitzblick", "Waldblick"];
 
+const toLocalDate = (dateString) => {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(year, month - 1, day);
+};
+
+const addDays = (date, days) => {
+  const nextDate = new Date(date);
+  nextDate.setDate(nextDate.getDate() + days);
+  return nextDate;
+};
+
+const expandBlockedDates = (blockedRanges) => {
+  const dates = [];
+
+  blockedRanges.forEach(({ start, end }) => {
+    let currentDate = toLocalDate(start);
+    const endDate = toLocalDate(end);
+
+    while (currentDate < endDate) {
+      dates.push(new Date(currentDate));
+      currentDate = addDays(currentDate, 1);
+    }
+  });
+
+  return dates;
+};
+
 export default function AvailabilityCalendar({ onSelectStay }) {
   const [selectedApartment, setSelectedApartment] = useState("Gamlitzblick");
   const [range, setRange] = useState();
+  const [blockedRanges, setBlockedRanges] = useState([]);
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState("");
+
+  const blockedDates = useMemo(
+    () => expandBlockedDates(blockedRanges),
+    [blockedRanges]
+  );
+
+  useEffect(() => {
+    const loadAvailability = async () => {
+      setIsLoadingAvailability(true);
+      setAvailabilityError("");
+
+      try {
+        const response = await fetch(
+          `/api/availability?apartment=${encodeURIComponent(selectedApartment)}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Availability request failed");
+        }
+
+        const data = await response.json();
+        setBlockedRanges(data.blockedDates || []);
+      } catch (error) {
+        setAvailabilityError(
+          "Die Verfügbarkeit konnte momentan nicht geladen werden."
+        );
+        setBlockedRanges([]);
+      } finally {
+        setIsLoadingAvailability(false);
+      }
+    };
+
+    loadAvailability();
+  }, [selectedApartment]);
 
   const handleSelect = (selectedRange) => {
     setRange(selectedRange);
@@ -59,6 +123,18 @@ export default function AvailabilityCalendar({ onSelectStay }) {
             ))}
           </div>
 
+          {isLoadingAvailability && (
+            <p className="mb-4 text-center text-sm text-[#6b6258]">
+              Verfügbarkeit wird geladen …
+            </p>
+          )}
+
+          {availabilityError && (
+            <p className="mb-4 text-center text-sm text-red-700">
+              {availabilityError}
+            </p>
+          )}
+
           <div className="flex justify-center">
             <DayPicker
               mode="range"
@@ -67,8 +143,12 @@ export default function AvailabilityCalendar({ onSelectStay }) {
               numberOfMonths={2}
               locale={de}
               weekStartsOn={1}
-              disabled={{ before: new Date() }}
+              disabled={[{ before: new Date() }, ...blockedDates]}
+              modifiers={{
+                booked: blockedDates,
+              }}
               modifiersClassNames={{
+                booked: "weinloft-booked",
                 selected: "weinloft-selected",
                 range_start: "weinloft-range-start",
                 range_end: "weinloft-range-end",
@@ -86,8 +166,18 @@ export default function AvailabilityCalendar({ onSelectStay }) {
                 {format(range.to, "dd. MMMM yyyy", { locale: de })}
               </p>
             ) : (
-              <p>Bitte zuerst Anreise und danach Abreise auswählen.</p>
+              <p>Wählen Sie Anreise und Abreise im Kalender aus.</p>
             )}
+
+            <div className="mt-6 rounded-2xl bg-[#fbfaf6] border border-[#ddd3c2] px-5 py-4 text-sm text-[#4f4a43] text-center">
+              <p>
+                Mindestaufenthalt: <strong>3 Nächte</strong>
+              </p>
+              <p className="mt-1">
+                Ab <strong>7 Nächten</strong> erhalten Sie{" "}
+                <strong>10 % Rabatt</strong>.
+              </p>
+            </div>
           </div>
         </div>
       </div>
