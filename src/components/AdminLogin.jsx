@@ -13,10 +13,11 @@ export default function AdminLogin() {
       password,
     });
 
-    if (error) {
-      alert("error.message");
-      return;
-    }
+  if (error) {
+  console.log(error);
+  alert(error.message);
+  return;
+}
 
     window.location.href = "/admin";
   };
