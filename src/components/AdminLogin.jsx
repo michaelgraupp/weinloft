@@ -14,7 +14,7 @@ export default function AdminLogin() {
     });
 
     if (error) {
-      alert("Login fehlgeschlagen.");
+      alert("error.message");
       return;
     }
 
