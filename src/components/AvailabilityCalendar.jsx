@@ -165,6 +165,7 @@ export default function AvailabilityCalendar({ onSelectStay }) {
               locale={de}
               weekStartsOn={1}
               disabled={[{ before: new Date() }, ...blockedDates]}
+              excludeDisabled={false}
               modifiers={{ booked: blockedDates }}
               modifiersClassNames={{
                 booked: "weinloft-booked",
