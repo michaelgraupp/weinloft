@@ -22,7 +22,7 @@ const expandBlockedDates = (blockedRanges) => {
   const dates = [];
 
   blockedRanges.forEach(({ start, end }) => {
-    let currentDate = toLocalDate(start);
+    let currentDate = addDays(toLocalDate(start), 1);
     const endDate = toLocalDate(end);
 
     while (currentDate < endDate) {
