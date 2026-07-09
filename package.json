@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.2",
     "@tailwindcss/vite": "^4.2.4",
     "date-fns": "^4.4.0",
     "ical.js": "^2.2.1",
     "react": "^19.2.5",
     "react-day-picker": "^10.0.1",
     "react-dom": "^19.2.5",
+    "react-router-dom": "^7.18.0",
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {

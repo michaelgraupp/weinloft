@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AvailabilityCalendar from "./components/AvailabilityCalendar";
+import { supabase } from "./lib/supabase";
+import AdminBlocks from "./components/AdminBlocks";
+import AdminLogin from "./components/AdminLogin";
+import ProtectedAdmin from "./components/ProtectedAdmin";
 
 const HERO_IMAGES = [
   {
@@ -406,7 +410,46 @@ function App() {
   arrival: "",
   departure: "",
 });
+if (window.location.pathname === "/login") {
+  return <AdminLogin />;
+}
 
+if (window.location.pathname === "/admin") {
+  return <ProtectedAdmin />;
+}
+
+const handleBookingSubmit = async (e) => {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+
+  const fullName = formData.get("name") || "";
+  const nameParts = fullName.trim().split(" ");
+  const firstName = nameParts.shift() || "-";
+  const lastName = nameParts.join(" ") || "-";
+
+  const { error } = await supabase.from("bookings").insert({
+    apartment: formData.get("apartment") || "egal / noch unentschieden",
+    first_name: firstName,
+    last_name: lastName,
+    email: formData.get("email"),
+    phone: formData.get("phone") || null,
+    arrival: formData.get("arrival"),
+    departure: formData.get("departure"),
+    guests: Number(formData.get("guests")),
+    message: formData.get("message") || null,
+    status: "Anfrage",
+    paid: false,
+  });
+
+  if (error) {
+    alert("Die Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per E-Mail.");
+    return;
+  }
+
+  form.submit();
+};
   const openLightbox = (images, current, name) => {
     setLightbox({ images, current, name });
   };
@@ -770,10 +813,11 @@ function App() {
 
           <div className="max-w-4xl mx-auto rounded-3xl bg-[#fbfaf6] text-[#2b2b2b] p-6 md:p-8 shadow-xl">
             <form
-              className="space-y-5 text-sm"
-              action="https://formsubmit.co/weinloft.gamlitz@gmail.com"
-              method="POST"
-            >
+            className="space-y-5 text-sm"
+            action="https://formsubmit.co/weinloft.gamlitz@gmail.com"
+             method="POST"
+             onSubmit={handleBookingSubmit}
+             >
               <input type="hidden" name="_subject" value="Neue Buchungsanfrage – Weinloft Gamlitz" />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_captcha" value="false" />
