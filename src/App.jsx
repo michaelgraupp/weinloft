@@ -741,6 +741,7 @@ const handleBookingSubmit = async (e) => {
               <ul className="space-y-2 text-[#6b6258] text-sm">
                 <li>Balkon</li>
                 <li>Naschgarten mit Weintrauben</li>
+                <li>Wallbox für E-Autos vorhanden</li>
                 <li>Kostenlose Parkplätze</li>
                 <li>Selbst-Check-in möglich</li>
               </ul>

@@ -3,6 +3,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
+import { supabase } from "../lib/supabase";
 
 const apartments = ["Gamlitzblick", "Waldblick"];
 
@@ -21,7 +22,7 @@ const expandBlockedDates = (blockedRanges) => {
   const dates = [];
 
   blockedRanges.forEach(({ start, end }) => {
-    let currentDate = toLocalDate(start);
+    let currentDate = addDays(toLocalDate(start), 1);
     const endDate = toLocalDate(end);
 
     while (currentDate < endDate) {
@@ -46,33 +47,53 @@ export default function AvailabilityCalendar({ onSelectStay }) {
   );
 
   useEffect(() => {
-    const loadAvailability = async () => {
-      setIsLoadingAvailability(true);
-      setAvailabilityError("");
+  const loadAvailability = async () => {
+    setIsLoadingAvailability(true);
+    setAvailabilityError("");
 
-      try {
-        const response = await fetch(
-          `/api/availability?apartment=${encodeURIComponent(selectedApartment)}`
-        );
+    let bookingBlockedDates = [];
+    let manualBlockedDates = [];
 
-        if (!response.ok) {
-          throw new Error("Availability request failed");
-        }
+    try {
+      const bookingResponse = await fetch(
+        `/api/availability?apartment=${encodeURIComponent(selectedApartment)}`
+      );
 
-        const data = await response.json();
-        setBlockedRanges(data.blockedDates || []);
-      } catch (error) {
-        setAvailabilityError(
-          "Die Verfügbarkeit konnte momentan nicht geladen werden."
-        );
-        setBlockedRanges([]);
-      } finally {
-        setIsLoadingAvailability(false);
+      if (bookingResponse.ok) {
+        const bookingData = await bookingResponse.json();
+        bookingBlockedDates = bookingData.blockedDates || [];
       }
-    };
+    } catch (error) {
+      console.warn("Booking.com-Verfügbarkeit lokal nicht geladen:", error);
+    }
 
-    loadAvailability();
-  }, [selectedApartment]);
+    try {
+      const { data: manualBlocks, error } = await supabase
+        .from("public_manual_blocks")
+        .select("arrival, departure")
+        .eq("apartment", selectedApartment);
+
+      if (error) {
+        throw error;
+      }
+
+      manualBlockedDates = (manualBlocks || []).map((block) => ({
+        start: block.arrival,
+        end: block.departure,
+      }));
+    } catch (error) {
+      console.error("Supabase-Sperren konnten nicht geladen werden:", error);
+      setAvailabilityError(
+        "Die privaten Sperren konnten momentan nicht geladen werden."
+      );
+    }
+
+    setBlockedRanges([...bookingBlockedDates, ...manualBlockedDates]);
+    setIsLoadingAvailability(false);
+  };
+
+  loadAvailability();
+}, [selectedApartment]);
 
   const handleSelect = (selectedRange) => {
     setRange(selectedRange);
@@ -144,9 +165,8 @@ export default function AvailabilityCalendar({ onSelectStay }) {
               locale={de}
               weekStartsOn={1}
               disabled={[{ before: new Date() }, ...blockedDates]}
-              modifiers={{
-                booked: blockedDates,
-              }}
+              excludeDisabled={false}
+              modifiers={{ booked: blockedDates }}
               modifiersClassNames={{
                 booked: "weinloft-booked",
                 selected: "weinloft-selected",
