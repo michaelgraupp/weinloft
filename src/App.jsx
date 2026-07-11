@@ -523,6 +523,7 @@ const handleBookingSubmit = async (e) => {
             <ScrollLink to="#apartments" className="hover:text-stone-950">Apartments</ScrollLink>
             <ScrollLink to="#ausstattung" className="hover:text-stone-950">Ausstattung</ScrollLink>
             <ScrollLink to="#lage" className="hover:text-stone-950">Lage</ScrollLink>
+            <ScrollLink to="#verfuegbarkeit" className="hover:text-stone-950">Verfügbarkeit</ScrollLink>
             <ScrollLink to="#kontakt" className="hover:text-stone-950">Kontakt</ScrollLink>
           </div>
 

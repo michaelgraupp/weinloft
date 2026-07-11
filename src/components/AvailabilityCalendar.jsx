@@ -108,7 +108,7 @@ export default function AvailabilityCalendar({ onSelectStay }) {
   };
 
   return (
-    <section className="py-20 bg-[#fbfaf6] scroll-mt-20">
+    <section id="verfuegbarkeit" className="py-20 bg-[#fbfaf6] scroll-mt-28">
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-10 text-center">
           <p className="mb-2 text-xs uppercase tracking-[0.28em] text-[#7a7065]">
