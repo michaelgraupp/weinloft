@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import AvailabilityCalendar from "./components/AvailabilityCalendar";
 import { supabase } from "./lib/supabase";
 import AdminBlocks from "./components/AdminBlocks";
+import AdminLogin from "./components/AdminLogin";
+import ProtectedAdmin from "./components/ProtectedAdmin";
 
 const HERO_IMAGES = [
   {
@@ -408,8 +410,14 @@ function App() {
   arrival: "",
   departure: "",
 });
-if (window.location.pathname === "/admin") {
-  return <AdminBlocks />;
+const path = window.location.pathname.replace(/\/$/, "");
+
+if (path === "/login") {
+  return <AdminLogin />;
+}
+
+if (path === "/admin") {
+  return <ProtectedAdmin />;
 }
 const handleBookingSubmit = async (e) => {
   e.preventDefault();
